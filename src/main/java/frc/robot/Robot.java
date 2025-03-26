@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -27,23 +28,21 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
  * to the Dashboard.
  */
 public class Robot extends TimedRobot {
-  private static final int kMotorPort = 0;
-  private static final int kJoystickPort = 0;
-  private static final int kEncoderPortA = 0;
-  private static final int kEncoderPortB = 1;
+    // Create TalonFX motor controller with CAN ID 1
+    private final TalonFX motor = new TalonFX(25);
+    
+    // Joystick on USB port 0
+    private final Joystick joystick = new Joystick(0);
 
-  private final PWMSparkMax m_motor;
-  private final Joystick m_joystick;
-  private final Encoder m_encoder;
+    // Duty cycle control object for setting motor output
+    private final DutyCycleOut output = new DutyCycleOut(0);
+
+    // Motor speed (0.5 = 50% output, adjust as needed)
+    private final double motorSpeed = 0.5;
 
   /** Called once at the beginning of the robot program. */
   public Robot() {
-    m_motor = new PWMSparkMax(kMotorPort);
-    m_joystick = new Joystick(kJoystickPort);
-    m_encoder = new Encoder(kEncoderPortA, kEncoderPortB);
-    // Use SetDistancePerPulse to set the multiplier for GetDistance
-    // This is set up assuming a 6 inch wheel with a 360 CPR encoder.
-    m_encoder.setDistancePerPulse((Math.PI * 6) / 360.0);
+    motor.getConfigurator().apply(new com.ctre.phoenix6.configs.TalonFXConfiguration());
   }
 
   /*
@@ -52,12 +51,24 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Encoder", m_encoder.getDistance());
+    SmartDashboard.putNumber("Encoder",1);
   }
 
   /** The teleop periodic function is called every control packet in teleop. */
   @Override
   public void teleopPeriodic() {
-    m_motor.set(m_joystick.getY());
+    System.out.println("teleopPeriodic");
+
+    // Button 1 starts the motor
+    if (joystick.getRawButtonPressed(1)) {
+        motor.setControl(output.withOutput(motorSpeed));
+        System.out.println("Motor STARTED");
+    }
+
+    // Button 2 stops the motor
+    if (joystick.getRawButtonPressed(2)) {
+        motor.setControl(output.withOutput(0));
+        System.out.println("Motor STOPPED");
+    }
   }
 }
