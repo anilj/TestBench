@@ -14,6 +14,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -60,9 +61,9 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Button 1 starts the motor
     if (joystick.getRawButtonPressed(1)) {
-        // motor.setControl(new MotionMagicVoltage(200)); // Moves smoothly at 200 RPM
+        motor.setControl(new VelocityVoltage(100)); // Moves smoothly at 200 RPM
 
-        motor.setControl(output.withOutput(motorSpeed));
+        // motor.setControl(output.withOutput(motorSpeed));
         System.out.println("Motor STARTED");
     }
 
