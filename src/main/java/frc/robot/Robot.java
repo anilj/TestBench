@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicDutyCycle;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
@@ -61,7 +63,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Button 1 starts the motor
     if (joystick.getRawButtonPressed(1)) {
-        motor.setControl(new VelocityVoltage(100)); // Moves smoothly at 200 RPM
+        motor.setControl(new MotionMagicDutyCycle(0.2)); // Moves smoothly at 200 RPM
 
         // motor.setControl(output.withOutput(motorSpeed));
         System.out.println("Motor STARTED");
