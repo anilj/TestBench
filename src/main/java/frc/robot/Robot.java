@@ -60,7 +60,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Button 1 starts the motor
     if (joystick.getRawButtonPressed(1)) {
-        motor.setControl(new MotionMagicVoltage(50)); // Moves smoothly at 200 RPM
+        motor.setControl(new MotionMagicVoltage(200)); // Moves smoothly at 200 RPM
 
         // motor.setControl(output.withOutput(motorSpeed));
         System.out.println("Motor STARTED");
