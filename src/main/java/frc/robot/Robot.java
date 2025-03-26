@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
@@ -57,11 +58,11 @@ public class Robot extends TimedRobot {
   /** The teleop periodic function is called every control packet in teleop. */
   @Override
   public void teleopPeriodic() {
-    System.out.println("teleopPeriodic");
-
     // Button 1 starts the motor
     if (joystick.getRawButtonPressed(1)) {
-        motor.setControl(output.withOutput(motorSpeed));
+        motor.setControl(new MotionMagicVoltage(5)); // Moves smoothly at 200 RPM
+
+        // motor.setControl(output.withOutput(motorSpeed));
         System.out.println("Motor STARTED");
     }
 
